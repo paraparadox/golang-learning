@@ -2,6 +2,9 @@ package math
 
 // Find the average value of an array of numbers
 func Average(xs []float64) float64 {
+	if len(xs) == 0 {
+		return 0
+	}
 	total := float64(0)
 	for _, x := range xs {
 		total += x
@@ -11,6 +14,9 @@ func Average(xs []float64) float64 {
 
 // Find the minimum element of an array of numbers
 func Min(xs []float64) float64 {
+	if len(xs) == 0 {
+		return 0
+	}
 	min := xs[0]
 	for _, x := range xs {
 		if min > x {
@@ -22,6 +28,9 @@ func Min(xs []float64) float64 {
 
 // Find the maximum of an array of numbers
 func Max(xs []float64) float64 {
+	if len(xs) == 0 {
+		return 0
+	}
 	max := xs[0]
 	for _, x := range xs {
 		if max < x {

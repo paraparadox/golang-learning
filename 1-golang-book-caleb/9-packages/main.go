@@ -9,4 +9,5 @@ func main() {
 	fmt.Println(avg)
 	fmt.Println(m.Min([]float64{1, 2, 3, 4}))
 	fmt.Println(m.Max([]float64{1, 2, 3, 4}))
+	fmt.Println(m.Average([]float64{}))
 }
