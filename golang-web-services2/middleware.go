@@ -62,7 +62,7 @@ func logoutPage(w http.ResponseWriter, r *http.Request) {
 func mainPage(w http.ResponseWriter, r *http.Request) {
 	session, err := r.Cookie("session_id")
 	// this is tutorial example, not real auth check
-	loggedIn := (err != http.ErrNoCookie)
+	loggedIn := err != http.ErrNoCookie
 
 	if loggedIn {
 		fmt.Fprintln(w, `<a href="/logout">logout</a>`)
