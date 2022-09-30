@@ -3,8 +3,8 @@ package main
 import (
 	"bytes"
 	"fmt"
-	"golang-learning/golang-web-services2/7-templates/item"
-	"golang-learning/golang-web-services2/7-templates/template"
+	"golang-learning/golang-web-services2/2-part/1-week/7-templates/item"
+	"golang-learning/golang-web-services2/2-part/1-week/7-templates/template"
 	"net/http"
 )
 

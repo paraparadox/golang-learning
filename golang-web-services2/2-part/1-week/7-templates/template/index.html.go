@@ -5,7 +5,7 @@ package template
 
 import (
 	"bytes"
-	"golang-learning/golang-web-services2/7-templates/item"
+	"golang-learning/golang-web-services2/2-part/1-week/7-templates/item"
 
 	"github.com/shiyanhui/hero"
 )
