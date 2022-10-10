@@ -8,17 +8,18 @@ import (
 	"strconv"
 )
 
-func GetBook(w http.ResponseWriter, r *http.Request) {
-	// read dynamic id parameter
+func DeleteBook(w http.ResponseWriter, r *http.Request) {
+	// read the dynamic id parameter
 	vars := mux.Vars(r)
 	id, _ := strconv.Atoi(vars["id"])
 
-	// find a book with this id and send it in response
 	w.Header().Add("Content-Type", "application/json")
-	for _, book := range mocks.Books {
+	// find and remove a book with specified id
+	for index, book := range mocks.Books {
 		if book.Id == id {
+			mocks.Books = append(mocks.Books[:index], mocks.Books[index+1:]...)
 			w.WriteHeader(http.StatusOK)
-			json.NewEncoder(w).Encode(book)
+			json.NewEncoder(w).Encode(mocks.Books)
 			return
 		}
 	}
