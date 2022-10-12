@@ -2,15 +2,14 @@ package handlers
 
 import (
 	"encoding/json"
-	"github.com/paraparadox/golang-learning/gorm-psql-rest-api/pkg/mocks"
+	"fmt"
 	"github.com/paraparadox/golang-learning/gorm-psql-rest-api/pkg/models"
 	"io"
 	"log"
-	"math/rand"
 	"net/http"
 )
 
-func AddBook(w http.ResponseWriter, r *http.Request) {
+func (h *handler) AddBook(w http.ResponseWriter, r *http.Request) {
 	// read the request body
 	defer r.Body.Close()
 	body, err := io.ReadAll(r.Body)
@@ -23,8 +22,9 @@ func AddBook(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(body, &book)
 
 	// append to book mocks
-	book.Id = rand.Intn(100)
-	mocks.Books = append(mocks.Books, book)
+	if result := h.DB.Create(&book); result.Error != nil {
+		fmt.Println(result.Error)
+	}
 
 	// send a 201 created response
 	w.Header().Add("Content-Type", "application/json")

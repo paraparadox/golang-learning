@@ -3,7 +3,6 @@ package handlers
 import (
 	"encoding/json"
 	"github.com/gorilla/mux"
-	"github.com/paraparadox/golang-learning/gorm-psql-rest-api/pkg/mocks"
 	"github.com/paraparadox/golang-learning/gorm-psql-rest-api/pkg/models"
 	"io"
 	"log"
@@ -11,7 +10,7 @@ import (
 	"strconv"
 )
 
-func UpdateBook(w http.ResponseWriter, r *http.Request) {
+func (h *handler) UpdateBook(w http.ResponseWriter, r *http.Request) {
 	defer r.Body.Close()
 	vars := mux.Vars(r)
 	id, _ := strconv.Atoi(vars["id"])
@@ -22,18 +21,20 @@ func UpdateBook(w http.ResponseWriter, r *http.Request) {
 		log.Fatalln(err)
 	}
 
-	var updateBook models.Book
-	json.Unmarshal(body, &updateBook)
-	updateBook.Id = id
+	var updatedBook models.Book
+	json.Unmarshal(body, &updatedBook)
+	updatedBook.Id = id
+
+	var book models.Book
+
+	if result := h.DB.First(&book, id); result.Error != nil {
+		w.WriteHeader(http.StatusNotFound)
+		w.Write([]byte("Record not found"))
+		return
+	}
+	h.DB.Save(&updatedBook)
 
 	w.Header().Add("Content-Type", "application/json")
-	for index, book := range mocks.Books {
-		if book.Id == id {
-			mocks.Books[index] = updateBook
-			w.WriteHeader(http.StatusOK)
-			json.NewEncoder(w).Encode(mocks.Books[index])
-			return
-		}
-	}
-	w.WriteHeader(http.StatusNotFound)
+	w.WriteHeader(http.StatusOK)
+	json.NewEncoder(w).Encode(updatedBook)
 }
